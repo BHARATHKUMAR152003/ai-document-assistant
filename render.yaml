@@ -1,0 +1,19 @@
+# Render Blueprint: Render dashboard > New > Blueprint > select this repository.
+services:
+  - type: web
+    name: ai-document-assistant-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      # Origin of the GitHub Pages frontend (scheme + host only, no path).
+      - key: CORS_ORIGINS
+        value: https://bharathkumar152003.github.io
+      - key: LLM_PROVIDER
+        value: none
